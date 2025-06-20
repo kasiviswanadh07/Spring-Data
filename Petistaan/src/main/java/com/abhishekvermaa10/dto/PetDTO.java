@@ -2,6 +2,8 @@ package com.abhishekvermaa10.dto;
 
 import com.abhishekvermaa10.enums.Gender;
 import com.abhishekvermaa10.enums.PetType;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,7 +21,16 @@ import lombok.ToString;
 @ToString
 @Setter
 @Getter
-public abstract class PetDTO {
+@JsonTypeInfo(
+		  use = JsonTypeInfo.Id.NAME,
+		  include = JsonTypeInfo.As.PROPERTY,
+		  property = "@type"
+		)
+		@JsonSubTypes({
+		  @JsonSubTypes.Type(value = DomesticPetDTO.class, name = "domestic"),
+		  @JsonSubTypes.Type(value = WildPetDTO.class, name = "wild")
+		})
+public  class PetDTO {
 
 	@EqualsAndHashCode.Include
 	private int id;

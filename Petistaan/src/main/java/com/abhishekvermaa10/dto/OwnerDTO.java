@@ -2,6 +2,7 @@ package com.abhishekvermaa10.dto;
 
 import com.abhishekvermaa10.enums.Gender;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ public class OwnerDTO {
 	private String mobileNumber;
 	@EqualsAndHashCode.Include
 	private String emailId;
+	@Valid
 	private PetDTO petDTO;
 
 }

@@ -10,9 +10,11 @@ spring:
   application:
     name: Petistaan
   datasource:
-    password: ${MYSQL_PASSWORD}
+#    password: ${MYSQL_PASSWORD}
+    password: "Kasi@123"
     url: jdbc:mysql://localhost:3306/petistaan
-    username: ${MYSQL_USERNAME}
+#    username: ${MYSQL_USERNAME}
+    username: "root"
   jpa:
     hibernate:
       ddl-auto: update

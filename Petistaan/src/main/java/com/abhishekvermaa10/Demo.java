@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @SpringBootApplication
 public class Demo implements CommandLineRunner {
 	
+	
 	private final OwnerService ownerService;
 	private final PetService petService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(Demo.class);
@@ -45,7 +46,7 @@ public class Demo implements CommandLineRunner {
 					OwnerDTO ownerDTO = InputUtil.acceptOwnerDetailsToSave(scanner);
 					PetDTO petDTO = InputUtil.acceptPetDetailsToSave(scanner);
 					ownerDTO.setPetDTO(petDTO);
-					ownerService.saveOwner(ownerDTO);
+					ownerService.saveOwnerCmd(ownerDTO);
 					System.out.println("Saved owner successfully.");
 					break;
 				case 2:

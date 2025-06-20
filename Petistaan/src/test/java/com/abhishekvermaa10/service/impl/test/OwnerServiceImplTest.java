@@ -48,9 +48,20 @@ class OwnerServiceImplTest {
 		OwnerDTO inputOwnerDTO = new OwnerDTO();
 		PetDTO inputDomesticPetDTO = new DomesticPetDTO();
 		inputOwnerDTO.setPetDTO(inputDomesticPetDTO);
+
+		Owner savedOwnerWithId = new Owner();
+		savedOwnerWithId.setId(123); // ID needed for OwnerIdDTO
+
+		// Mock mapper and repository
+//		when(ownerServiceImpl.getOwnerMapper().ownerDTOToOwner(any(OwnerDTO.class))).thenReturn(mockMappedOwner);
+		when(ownerRepository.save(any(Owner.class))).thenReturn(savedOwnerWithId);
+
 		// When
-		ownerServiceImpl.saveOwner(inputOwnerDTO);
+		 var result = ownerServiceImpl.saveOwnerJson(inputOwnerDTO);
+
 		// Then
+		assertThat(result).isNotNull();
+		assertThat(result.getId()).isEqualTo(123);
 		verify(ownerRepository, times(1)).save(any(Owner.class));
 	}
 

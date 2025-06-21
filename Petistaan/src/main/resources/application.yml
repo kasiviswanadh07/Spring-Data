@@ -22,3 +22,6 @@ spring:
   sql:
     init:
       mode: never
+server:
+  servlet:
+    context-path: /petistaan

@@ -65,7 +65,6 @@ public class Demo implements CommandLineRunner {
 				case 4:
 					ownerId = InputUtil.acceptOwnerIdToOperate(scanner);
 					ownerService.deleteOwner(ownerId);
-					System.out.println(String.format("Deleted owner with ownerId %s.", ownerId));
 					break;
 				case 5:
 					List<OwnerDTO> ownerDTOList = ownerService.findAllOwners();

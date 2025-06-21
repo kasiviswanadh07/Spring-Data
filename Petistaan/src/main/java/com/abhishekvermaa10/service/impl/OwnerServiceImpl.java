@@ -2,14 +2,15 @@ package com.abhishekvermaa10.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.abhishekvermaa10.dto.OwnerDTO;
 import com.abhishekvermaa10.dto.OwnerIdDTO;
+import com.abhishekvermaa10.dto.OwnerPetInfoDTO;
 import com.abhishekvermaa10.entity.Owner;
 import com.abhishekvermaa10.exception.OwnerNotFoundException;
 import com.abhishekvermaa10.repository.OwnerRepository;
@@ -83,6 +84,11 @@ public class OwnerServiceImpl implements OwnerService {
 			int numberOfRecordsPerPage) {
 		Pageable pageable = PageRequest.of(pageNumber, numberOfRecordsPerPage);
 		return ownerRepository.findIdAndFirstNameAndLastNameAndPetName(pageable);
+	}
+
+	@Override
+	public Page<OwnerPetInfoDTO> findIdAndFirstNameAndLastNameAndPetNameOfPaginatedOwnersJson(Pageable pageable) {
+		return ownerRepository.findIdAndFirstNameAndLastNameAndPetNameJson(pageable);
 	}
 
 }

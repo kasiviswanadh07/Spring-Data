@@ -3,6 +3,7 @@ package com.abhishekvermaa10.service.impl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.abhishekvermaa10.dto.AverageAgeDTO;
 import com.abhishekvermaa10.dto.PetDTO;
 import com.abhishekvermaa10.exception.PetNotFoundException;
 import com.abhishekvermaa10.repository.PetRepository;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class PetServiceImpl implements PetService {
-	
+
 	private final PetRepository petRepository;
 	private final PetMapper petMapper;
 	@Value("${pet.not.found}")
@@ -25,15 +26,20 @@ public class PetServiceImpl implements PetService {
 
 	@Override
 	public PetDTO findPet(int petId) throws PetNotFoundException {
-		return petRepository.findById(petId)
-				.map(petMapper::petToPetDTO)
+		return petRepository.findById(petId).map(petMapper::petToPetDTO)
 				.orElseThrow(() -> new PetNotFoundException(String.format(petNotFound, petId)));
 	}
-	
+
 	@Override
 	public Double findAverageAgeOfPet() {
-		return petRepository.findAverageAgeOfPet()
-				.orElse(0.0);
+		return petRepository.findAverageAgeOfPet().orElse(0.0);
 	}
-	
+
+	@Override
+	public AverageAgeDTO findAverageAgeOfPetJson() {
+		Double avg = petRepository.findAverageAgeOfPetJson();
+		return new AverageAgeDTO(avg != null ? avg : 0.0);
+
+	}
+
 }

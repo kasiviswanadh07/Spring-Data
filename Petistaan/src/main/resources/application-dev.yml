@@ -1,20 +1,8 @@
-logging:
-  file:
-    path: logs
-    name: ${logging.file.path}/${spring.application.name}.log
-  logback:
-    rollingpolicy:
-      file-name-pattern: ${logging.file.path}/${spring.application.name}-%d{yyyy-MM-dd}-%i.log
-      max-file-size: 10MB
-
 spring:
-  application:
-    name: Petistaan
-  messages:
-    encoding: UTF-8
-  web:
-    locale: en
-    locale-resolver: accept-header
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
     url: jdbc:mysql://localhost:3306/petistaan
     username: root
@@ -27,15 +15,22 @@ spring:
     init:
       mode: never
 
-server:
-  servlet:
-    context-path: /petistaan
-
 springdoc:
   api-docs:
     path: /documentation
   swagger-ui:
     path: /swagger.html
+
+transliteration:
+  useDummy: true
+
+logging:
+  file:
+    name: logs/Petistaan.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ""
+      max-file-size: 10MB
 
 management:
   endpoints:
@@ -48,7 +43,8 @@ management:
   info:
     env:
       enabled: true
+
 info:
   app:
     name: Petistaan API
-    message: Pet management system for owners and pets
+    message: Pet management system for owners and pets (Dev)

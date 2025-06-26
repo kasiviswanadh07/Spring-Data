@@ -33,6 +33,7 @@ public class Demo implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Demo.class, args);
+		
 	}
 
 	@Override
@@ -96,9 +97,11 @@ public class Demo implements CommandLineRunner {
 					System.out.println("Invalid option entered.");
 				}
 			} while (InputUtil.wantToContinue(scanner));
+			
 		} catch (Exception exception) {
 			LOGGER.error(exception.getMessage(), exception);
 		}
+		
 	}
 
 }

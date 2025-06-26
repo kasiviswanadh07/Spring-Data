@@ -1,21 +1,26 @@
 package com.abhishekvermaa10.service.impl;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.abhishekvermaa10.dto.DomesticPetDTO;
 import com.abhishekvermaa10.dto.OwnerDTO;
 import com.abhishekvermaa10.dto.OwnerIdDTO;
 import com.abhishekvermaa10.dto.OwnerPetInfoDTO;
+import com.abhishekvermaa10.dto.PetDTO;
 import com.abhishekvermaa10.entity.Owner;
 import com.abhishekvermaa10.exception.OwnerNotFoundException;
 import com.abhishekvermaa10.repository.OwnerRepository;
 import com.abhishekvermaa10.service.OwnerService;
 import com.abhishekvermaa10.util.OwnerMapper;
+import com.abhishekvermaa10.util.PetFormatterUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,8 +57,14 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 	public OwnerDTO findOwnerByIdJson(int ownerId) throws OwnerNotFoundException {
-		return ownerRepository.findById(ownerId).map(ownerMapper::ownerToOwnerDTO)
-				.orElseThrow(() -> new OwnerNotFoundException(String.format(ownerNotFound, ownerId)));
+		return ownerRepository.findById(ownerId).map(owner -> {
+			 OwnerDTO ownerDTO = ownerMapper.ownerToOwnerDTO(owner);
+			if (ownerDTO.getPetDTO() instanceof DomesticPetDTO domesticPetDTO) {
+				Locale locale = LocaleContextHolder.getLocale();
+				PetFormatterUtil.applyFormattedBirthDate(domesticPetDTO, locale);
+			}
+			return ownerDTO;
+		}).orElseThrow(() -> new OwnerNotFoundException(String.format(ownerNotFound, ownerId)));
 	}
 
 	@Override
@@ -74,9 +85,21 @@ public class OwnerServiceImpl implements OwnerService {
 		}
 	}
 
+//	@Override
+//	public List<OwnerDTO> findAllOwners() {
+//		return ownerRepository.findAll().stream().map(ownerMapper::ownerToOwnerDTO).toList();
+//
+//	}
 	@Override
 	public List<OwnerDTO> findAllOwners() {
-		return ownerRepository.findAll().stream().map(ownerMapper::ownerToOwnerDTO).toList();
+		Locale locale = LocaleContextHolder.getLocale();
+
+		return ownerRepository.findAll().stream().map(ownerMapper::ownerToOwnerDTO).peek(ownerDTO -> {
+			PetDTO petDTO = ownerDTO.getPetDTO();
+			if (petDTO instanceof DomesticPetDTO domesticPetDTO) {
+				PetFormatterUtil.applyFormattedBirthDate(domesticPetDTO, locale);
+			}
+		}).toList();
 	}
 
 	@Override

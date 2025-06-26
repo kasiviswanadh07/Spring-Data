@@ -3,6 +3,7 @@ package com.abhishekvermaa10.dto;
 import com.abhishekvermaa10.enums.Gender;
 import com.abhishekvermaa10.enums.PetType;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Setter
 @Getter
+@Schema(description = "Represents a wild pet")
 public class WildPetDTO extends PetDTO {
 
 	private String birthPlace;
